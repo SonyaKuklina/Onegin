@@ -6,14 +6,16 @@
 
 void BubbleSort(TextPr* text_ptr, Sizes* size_par) {
 
-    assert(text_ptr != NULL);
-    assert(size_par != NULL);
+    assert(size_par -> size_text != NULL);
+    assert(size_par -> size_f    != NULL);
+    assert(size_par -> size_read != NULL);
+    assert(text_ptr -> text      != NULL);
+    assert(text_ptr -> len_str   != NULL);
 
     for (int i = 0; i < (size_par -> size_text) - 1; i++) {
         for (int j = 0; j < (size_par-> size_text) - 1; j++) {
 
-            if (Strcmp((text_ptr + j) -> text, (text_ptr + j + 1) -> text,\
-                       (text_ptr + j) -> len_str, (text_ptr + j + 1) -> len_str ) == 1) {
+            if (Strcmp((text_ptr + j) -> text, (text_ptr + j + 1) -> text) == 1) {
 
                 ChangeStrings(&((text_ptr + j) -> text), &((text_ptr + j + 1) -> text));
             }
@@ -24,8 +26,11 @@ void BubbleSort(TextPr* text_ptr, Sizes* size_par) {
 
 void BubbleSortBack(TextPr* text_ptr, Sizes* size_par) {
 
-    assert(text_ptr != NULL);
-    assert(size_par != NULL);
+    assert(size_par -> size_text != NULL);
+    assert(size_par -> size_f    != NULL);
+    assert(size_par -> size_read != NULL);
+    assert(text_ptr -> text      != NULL);
+    assert(text_ptr -> len_str   != NULL);
 
     for (int i = 0; i < (size_par -> size_text) - 1; i++) {
 
@@ -55,7 +60,7 @@ int CompareStrcmp(const void* string1, const void* string2) {
     assert(str1 != NULL);
     assert(str2 != NULL);
 
-    return Strcmp(str1 -> text ,str2 -> text, str1 -> len_str, str2 -> len_str);
+    return Strcmp(str1 -> text ,str2 -> text);
 
 }
 
@@ -76,9 +81,12 @@ int CompareBackStrcmp(const void* string1, const void* string2) {
 
 int SortAndOutOnegin(TextPr* text_ptr, char* bufer, Sizes* size_par) {
 
-    assert(text_ptr != NULL);
-    assert(bufer    != NULL);
-    assert(size_par != NULL);
+    assert(size_par -> size_text != NULL);
+    assert(size_par -> size_f    != NULL);
+    assert(size_par -> size_read != NULL);
+    assert(text_ptr -> text      != NULL);
+    assert(text_ptr -> len_str   != NULL);
+    assert(bufer != NULL);
 
     const char* title1_onegin = "ONEGIN. REGUAL SORTING\n\n";
     const char* title2_onegin = "\n\n\n\n\nONEGIN. REVERSE SORT\n\n";
@@ -103,8 +111,11 @@ int SortAndOutOnegin(TextPr* text_ptr, char* bufer, Sizes* size_par) {
 void DirectSort(TextPr* text_ptr, Sizes* size_par,
                 const char* title1_onegin, FILE* file_out) {
 
-    assert(text_ptr != NULL);
-    assert(size_par != NULL);
+    assert(size_par -> size_text != NULL);
+    assert(size_par -> size_f    != NULL);
+    assert(size_par -> size_read != NULL);
+    assert(text_ptr -> text      != NULL);
+    assert(text_ptr -> len_str   != NULL);
     assert(file_out != NULL);
 
     qsort(text_ptr, (size_par -> size_text), sizeof(TextPr), CompareStrcmp);
@@ -113,7 +124,7 @@ void DirectSort(TextPr* text_ptr, Sizes* size_par,
     int index = 0;
     TextPr* start_text_ptr = text_ptr;
 
-    assert(text_ptr_start != NULL);
+    assert(start_text_ptr != NULL);
 
     while (index < (size_par -> size_text)) {
 
@@ -128,15 +139,18 @@ void DirectSort(TextPr* text_ptr, Sizes* size_par,
 void ReverseSort(TextPr* text_ptr, Sizes* size_par,
                  const char* title2_onegin, FILE* file_out) {
 
-    assert(text_ptr != NULL);
-    assert(size_par != NULL);
+    assert(size_par -> size_text != NULL);
+    assert(size_par -> size_f    != NULL);
+    assert(size_par -> size_read != NULL);
+    assert(text_ptr -> text      != NULL);
+    assert(text_ptr -> len_str   != NULL);
     assert(file_out != NULL);
 
     qsort(text_ptr, (size_par -> size_text), sizeof(TextPr), CompareBackStrcmp);
 
     TextPr* start_text_ptr = text_ptr;
 
-    assert(text_ptr_start != NULL);
+    assert(start_text_ptr != NULL);
 
     fputs(title2_onegin, file_out);
     int index = 0;

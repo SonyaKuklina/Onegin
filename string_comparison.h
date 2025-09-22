@@ -3,8 +3,7 @@
 
 #include "string_function.h"
 
-int Strcmp(const char* first_string, const char* second_string,
-           int len_str1, int len_str2);
+int Strcmp(const char* first_string, const char* second_string);
 
 int BackStrcmp(const char* first_string, const char* second_string,
                int len_str1, int len_str2);

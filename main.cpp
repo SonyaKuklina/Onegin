@@ -9,7 +9,7 @@
 #include <ctype.h>
 #include <stdbool.h>
 #include <sys/stat.h>
-#include <stdlib.h> //для выделения динамической памяти
+#include <stdlib.h>
 #include <sys/stat.h>
 #include <fcntl.h>
 #include <unistd.h>
@@ -29,7 +29,7 @@ int main(void) {
     if (bufer == NULL)
         return -1;
 
-    TextPr* text_ptr = (TextPr*) calloc(size_par.size_text, sizeof(TextPr));
+    TextPr* text_ptr = CreateTextPointers(&size_par);
 
     FillText(bufer, text_ptr, &size_par);
 

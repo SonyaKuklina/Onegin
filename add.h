@@ -16,4 +16,6 @@ void FillText(char* bufer, TextPr* text_ptr, Sizes* size_par);
 
 char* CorrectReadAndSizeFile(Sizes* size_par);
 
+TextPr* CreateTextPointers(Sizes* size_par);
+
 #endif

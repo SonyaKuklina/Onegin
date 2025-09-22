@@ -62,9 +62,11 @@ long int CountNewStr(char* bufer) {
 
 void FillText(char* bufer, TextPr* text_ptr, Sizes* size_par) {
 
+     assert(size_par -> size_text != NULL);
+     assert(size_par -> size_f    != NULL);
+     assert(size_par -> size_read != NULL);
      assert(text_ptr != NULL);
-     assert(size_par != NULL);
-     assert(bufer != NULL);
+     assert(bufer    != NULL);
 
      long int start_string = 0;
      TextPr* text_ptr_start = text_ptr;
@@ -116,5 +118,16 @@ char* CorrectReadAndSizeFile(Sizes* size_par) {
     (size_par -> size_text) = CountNewStr(bufer);
 
     return bufer;
+
+}
+
+TextPr* CreateTextPointers(Sizes* size_par) {
+
+    assert(size_par -> size_text != NULL);
+    assert(size_par -> size_f    != NULL);
+    assert(size_par -> size_read != NULL);
+
+
+    return (TextPr*)calloc((size_par -> size_text), sizeof(TextPr));
 
 }
