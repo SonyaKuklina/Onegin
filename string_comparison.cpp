@@ -19,15 +19,11 @@ int Strcmp(const char* first_string, const char* second_string) {
 
     while ((*(first_string + index1) != '\n') && (*(second_string + index2) != '\n')) {
 
-        if (!(EqualSymb(first_string, second_string, index1, index2))) {
+        if (EqualSymb(*(first_string + index1), *(second_string + index2)) == -1)
+              return -1;
 
-                if (tolower(*(first_string + index1)) > tolower(*(second_string + index2)))
-                    return 1;
-
-                if (tolower(*(first_string + index1)) < tolower(*(second_string + index2)))
-                    return -1;
-
-        }
+        else if (EqualSymb(*(first_string + index1), *(second_string + index2)) == 1)
+              return 1;
 
         index1++;
         index2++;
@@ -62,15 +58,11 @@ int BackStrcmp(const char* first_string, const char* second_string,
 
     while ((index1 != -1) && (index2 != -1)) {
 
-        if (!(EqualSymb(first_string, second_string, index1, index2))) {
+        if (EqualSymb(*(first_string + index1), *(second_string + index2)) == -1)
+              return -1;
 
-                if (tolower(*(first_string + index1)) > tolower(*(second_string + index2)))
-                    return 1;
-
-                if (tolower(*(first_string + index1)) < tolower(*(second_string + index2)))
-                    return -1;
-
-        }
+        else if (EqualSymb(*(first_string + index1), *(second_string + index2)) == 1)
+              return 1;
 
         index1--;
         index2--;
@@ -100,22 +92,17 @@ bool CorrectSymb(const char* str, int index) {
     return true;
 }
 
-bool EqualSymb(const char* string1, const char* string2,
-               int index_first, int index_second) {
+int EqualSymb(char string1, char string2) {
 
-    assert(string1 != NULL);
-    assert(string2 != NULL);
+    char string1_copy = string1;
+    char string2_copy = string2;
+    if (tolower(string1_copy) == tolower(string2_copy))
+        return 0;
 
-    const char* string1_copy = string1;
-    const char* string2_copy = string2;
-
-    assert(string1_copy != NULL);
-    assert(string2_copy != NULL);
-
-    if (tolower(*(string1_copy + index_first)) == tolower(*(string2_copy + index_second)))
-        return true;
+    else if (tolower(string1_copy) > tolower(string2_copy))
+        return 1;
 
     else
-        return false;
+        return -1;
 
 }

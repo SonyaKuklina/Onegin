@@ -4,7 +4,7 @@
 #include <cassert>
 #include "string_comparison.h"
 
-void BubbleSort(TextPr* text_ptr, Sizes* size_par) {
+void BubbleSort(TextPr* text_ptr, Sizes* size_par, int (*StringComp)(const char*, const char*)) {
 
     assert(size_par -> size_text != NULL);
     assert(size_par -> size_f    != NULL);
@@ -15,36 +15,11 @@ void BubbleSort(TextPr* text_ptr, Sizes* size_par) {
     for (int i = 0; i < (size_par -> size_text) - 1; i++) {
         for (int j = 0; j < (size_par-> size_text) - 1; j++) {
 
-            if (Strcmp((text_ptr + j) -> text, (text_ptr + j + 1) -> text) == 1) {
+            if (StringComp((text_ptr + j) -> text, (text_ptr + j + 1) -> text) == 1) {
 
                 ChangeStrings(&((text_ptr + j) -> text), &((text_ptr + j + 1) -> text));
             }
         }
-    }
-
-}
-
-void BubbleSortBack(TextPr* text_ptr, Sizes* size_par) {
-
-    assert(size_par -> size_text != NULL);
-    assert(size_par -> size_f    != NULL);
-    assert(size_par -> size_read != NULL);
-    assert(text_ptr -> text      != NULL);
-    assert(text_ptr -> len_str   != NULL);
-
-    for (int i = 0; i < (size_par -> size_text) - 1; i++) {
-
-        for (int j = 0; j < (size_par-> size_text) - 1; j++) {
-
-            if (BackStrcmp((text_ptr + j) -> text, (text_ptr + j + 1) -> text,\
-                            (text_ptr + j) -> len_str, (text_ptr + j + 1) -> len_str ) == 1) {
-
-                ChangeStrings(&((text_ptr + j) -> text), &((text_ptr + j + 1) -> text));
-
-            }
-
-        }
-
     }
 
 }
@@ -97,9 +72,8 @@ int SortAndOutOnegin(TextPr* text_ptr, char* bufer, Sizes* size_par) {
     if (file_out == NULL)
         return -1;
 
-    DirectSort(text_ptr, size_par, title1_onegin, file_out);
-
-    ReverseSort(text_ptr, size_par, title2_onegin, file_out);
+    Sort(text_ptr, size_par, title1_onegin, file_out, CompareStrcmp);
+    Sort(text_ptr, size_par, title2_onegin, file_out, CompareBackStrcmp);
 
     if (WithoutSort(text_ptr, size_par, bufer, title_onegin, file_out) == -1)
         return -1;
@@ -108,8 +82,9 @@ int SortAndOutOnegin(TextPr* text_ptr, char* bufer, Sizes* size_par) {
 
 }
 
-void DirectSort(TextPr* text_ptr, Sizes* size_par,
-                const char* title1_onegin, FILE* file_out) {
+void Sort(TextPr* text_ptr, Sizes* size_par,
+                const char* title1_onegin, FILE* file_out,
+                int (*CompareString)(const void*, const void*)) {
 
     assert(size_par -> size_text != NULL);
     assert(size_par -> size_f    != NULL);
@@ -118,42 +93,13 @@ void DirectSort(TextPr* text_ptr, Sizes* size_par,
     assert(text_ptr -> len_str   != NULL);
     assert(file_out != NULL);
 
-    qsort(text_ptr, (size_par -> size_text), sizeof(TextPr), CompareStrcmp);
+    qsort(text_ptr, (size_par -> size_text), sizeof(TextPr), CompareString);
 
     fputs(title1_onegin, file_out);
     int index = 0;
     TextPr* start_text_ptr = text_ptr;
 
     assert(start_text_ptr != NULL);
-
-    while (index < (size_par -> size_text)) {
-
-        fprintf(file_out, "%.*s", (start_text_ptr -> len_str) + 1, start_text_ptr -> text);
-        index++;
-        start_text_ptr++;
-
-    }
-
-}
-
-void ReverseSort(TextPr* text_ptr, Sizes* size_par,
-                 const char* title2_onegin, FILE* file_out) {
-
-    assert(size_par -> size_text != NULL);
-    assert(size_par -> size_f    != NULL);
-    assert(size_par -> size_read != NULL);
-    assert(text_ptr -> text      != NULL);
-    assert(text_ptr -> len_str   != NULL);
-    assert(file_out != NULL);
-
-    qsort(text_ptr, (size_par -> size_text), sizeof(TextPr), CompareBackStrcmp);
-
-    TextPr* start_text_ptr = text_ptr;
-
-    assert(start_text_ptr != NULL);
-
-    fputs(title2_onegin, file_out);
-    int index = 0;
 
     while (index < (size_par -> size_text)) {
 
@@ -173,10 +119,14 @@ int WithoutSort(TextPr* text_ptr, Sizes* size_par, char* bufer,
     assert(file_out != NULL);
     assert(bufer != NULL);
 
+    free(text_ptr);
+
     fputs(title_onegin, file_out);
 
     if (fwrite(bufer, sizeof(char), size_par -> size_f, file_out) != (size_t)(size_par -> size_read))
         return -1;
+
+    free(bufer);
 
     return 1;
 

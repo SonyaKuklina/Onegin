@@ -104,7 +104,7 @@ char* CorrectReadAndSizeFile(Sizes* size_par) {
     if ( file_in == NULL )
         return NULL;
 
-    char* bufer = (char*) malloc(sizeof(char) * ((size_par -> size_f) + 1));
+    char* bufer = (char*) calloc(((size_par -> size_f) + 1), sizeof(char));
 
     assert(bufer != NULL);
 
